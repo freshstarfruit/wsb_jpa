@@ -2,18 +2,21 @@ package com.jpacourse.persistence.entity;
 
 import com.jpacourse.persistence.enums.Specialization;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "DOCTOR")
 public class DoctorEntity {
+
+	// DoctorEntity jest rodzicem VisitEntity, relacja dwustronna
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<VisitEntity> visitEntities = new ArrayList<>();
+
+	// DoctorEntity jest rodzicem AddressEntity, relacja jednostronna od strony rodzica
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	private AddressEntity address;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

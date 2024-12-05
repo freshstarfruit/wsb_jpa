@@ -1,17 +1,22 @@
 package com.jpacourse.persistence.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "PATIENT")
 public class PatientEntity {
+
+	// PatientEntity jest rodzicem VisitEntity, relacja dwustronna
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<VisitEntity> visitEntities = new ArrayList<>();
+
+	// PatientEntity jest rodzicem AddressEntity, relacja jednostronna od strony rodzica
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	private AddressEntity address;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
