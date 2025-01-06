@@ -1,5 +1,7 @@
 package com.jpacourse.persistence.entity;
 
+import org.apache.coyote.http11.filters.VoidOutputFilter;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +13,8 @@ import javax.persistence.*;
 public class PatientEntity {
 
 	// PatientEntity jest rodzicem VisitEntity, relacja dwustronna
-	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<VisitEntity> visitEntities = new ArrayList<>();
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<VisitEntity> visits = new ArrayList<>();
 
 	// PatientEntity jest rodzicem AddressEntity, relacja jednostronna od strony rodzica
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -38,6 +40,9 @@ public class PatientEntity {
 
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
+
+	@Column(nullable = false)
+	private Boolean isInsured;
 
 	public Long getId() {
 		return id;
@@ -95,4 +100,27 @@ public class PatientEntity {
 		this.dateOfBirth = dateOfBirth;
 	}
 
+	public List<VisitEntity> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(List<VisitEntity> visits) {
+		this.visits = visits;
+	}
+
+	public AddressEntity getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressEntity address) {
+		this.address = address;
+	}
+
+	public Boolean getIsInsured() {
+		return isInsured;
+	}
+
+	public void setIsInsured(Boolean isInsured) {
+		this.isInsured = isInsured;
+	}
 }

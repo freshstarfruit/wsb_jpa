@@ -11,8 +11,8 @@ import java.util.List;
 public class DoctorEntity {
 
 	// DoctorEntity jest rodzicem VisitEntity, relacja dwustronna
-	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<VisitEntity> visitEntities = new ArrayList<>();
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<VisitEntity> visits = new ArrayList<>();
 
 	// DoctorEntity jest rodzicem AddressEntity, relacja jednostronna od strony rodzica
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -96,4 +96,19 @@ public class DoctorEntity {
 		this.specialization = specialization;
 	}
 
+	public AddressEntity getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressEntity address) {
+		this.address = address;
+	}
+
+	public void setVisits(List<VisitEntity> visits) {
+		this.visits = visits;
+	}
+
+	public List<VisitEntity> getVisits() {
+		return visits;
+	}
 }
